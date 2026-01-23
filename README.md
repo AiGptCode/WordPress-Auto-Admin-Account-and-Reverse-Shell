@@ -2,7 +2,7 @@
 
 This Python script automates the process of creating a new administrator account in a WordPress site and executing a reverse shell on the target server. It utilizes the wp-automatic plugin's CSV injection vulnerability to execute SQL queries on the WordPress database and gain administrative access.
  
-  
+ 
 ## update 🦹‍♀️
  
 ### Nuclei template added

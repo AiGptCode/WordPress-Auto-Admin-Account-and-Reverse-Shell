@@ -3,6 +3,7 @@
 AiGPT WordPress Exploitation Framework
 Multi‑vector unauthenticated admin creation → reverse shell.
 Authorised testing only.
+https://github.com/AiGptCode/AiGPT-WordPress-Exploitation-Framework
 """
 
 import argparse, hashlib, json, logging, queue, re, secrets, sys, threading, time

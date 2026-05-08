@@ -1,4 +1,4 @@
-# AiGPT — Automated WordPress Exploitation Framework
+# AiGPT — Automated WordPress Exploitation Framework 
 
 AiGPT is a multi‑vector exploitation tool that automates the discovery and compromise of vulnerable WordPress sites.
 It fingerprints installed plugins, intelligently selects the best exploit, and delivers a reverse shell — often without needing any prior authentication.
